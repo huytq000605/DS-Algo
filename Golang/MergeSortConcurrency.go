@@ -1,21 +1,23 @@
 package mergeSort
 
-func MergeSort(data []int, resultChannel chan<- []int) {
+func MergeSort(data []int) []int {
 	if len(data) == 1 {
-		resultChannel <- []int{data[0]}
-		return
+		return []int{data[0]}
 	}
 	if len(data) == 0 {
-		resultChannel <- []int{}
-		return
+		return []int{}
 	}
 	mid := len(data) / 2
-	newChannel := make(chan []int, 2)
-	go MergeSort(data[:mid], newChannel)
-	go MergeSort(data[mid:], newChannel)
-	first := <-newChannel
-	second := <-newChannel
-	resultChannel <- merge(first, second)
+	done := make(chan bool)
+	var left []int
+	var right []int
+	go func() {
+		left = MergeSort(data[:mid])
+		done <- true
+	}()
+	right = MergeSort(data[mid:])
+	<-done
+	return merge(left, right)
 
 }
 
