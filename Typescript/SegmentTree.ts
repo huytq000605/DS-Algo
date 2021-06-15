@@ -48,8 +48,7 @@ class SegmentTree {
                     this.start + Math.floor((this.end - this.start) / 2);
                 this.left = new SegmentTree(this.start, middle, this.k);
                 this.right = new SegmentTree(middle + 1, this.end, this.k);
-            }
-			if (this.lazy) {
+            } else if (this.lazy) {
                 this.left.k += this.lazy;
                 this.left.lazy += this.lazy;
                 this.right.k += this.lazy;

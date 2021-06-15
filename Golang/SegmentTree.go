@@ -1,7 +1,5 @@
 package SegmentTree
 
-import "math"
-
 type SegmentTree struct {
 	// range
 	Start int
@@ -17,17 +15,18 @@ type SegmentTree struct {
 }
 
 func (this *SegmentTree) Query(s, e int) int {
-	if s < this.Start || e > this.End {
-		return math.MinInt32
+	if s > this.End || e < this.Start {
+		return 0
 	}
 
-	if s >= this.Start && e <= this.End {
+	if s <= this.Start && e >= this.End {
 		return this.Maximum
 	}
 
 	this.normalize()
 	leftQuery := this.Left.Query(s, e)
 	rightQuery := this.Right.Query(s, e)
+
 	if leftQuery > rightQuery {
 		return leftQuery
 	} else {
@@ -36,11 +35,10 @@ func (this *SegmentTree) Query(s, e int) int {
 }
 
 func (this *SegmentTree) Update(s, e, val int) {
-	if s < this.Start || e > this.End {
+	if s > this.End || e < this.Start {
 		return
 	}
-
-	if s >= this.Start && e <= this.End {
+	if s <= this.Start && e >= this.End {
 		this.Maximum += val
 		this.Lazy += val
 		return
@@ -58,13 +56,12 @@ func (this *SegmentTree) Update(s, e, val int) {
 }
 
 func (this *SegmentTree) normalize() {
-	if this.Start != this.End {
-		if this.Left == nil || this.Right == nil {
+	if this.Start < this.End {
+		if this.Left == nil || this.Right == nil { // The created have already == Maximum ( has been + Lazy so dont need)
 			middle := this.Start + (this.End-this.Start)/2
 			this.Left = &SegmentTree{Start: this.Start, End: middle, Maximum: this.Maximum}
 			this.Right = &SegmentTree{Start: middle + 1, End: this.End, Maximum: this.Maximum}
-		}
-		if this.Lazy != 0 {
+		} else if this.Lazy != 0 {
 			this.Left.Maximum += this.Lazy
 			this.Left.Lazy += this.Lazy
 			this.Right.Maximum += this.Lazy
