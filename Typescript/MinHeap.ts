@@ -1,7 +1,7 @@
 type HeapNode = number
 
 class MinHeap {
-    private heap: number[];
+    private heap: HeapNode[];
     private _length: number;
     constructor() {
         this.heap = [];
@@ -19,7 +19,7 @@ class MinHeap {
 			return undefined
     }
 
-    public push(val: number) {
+    public push(val: HeapNode) {
         this.heap.push(val);
         this._length++;
         this.bubbleUp();
