@@ -1,3 +1,5 @@
+type HeapNode = number
+
 class MinHeap {
     private heap: number[];
     private _length: number;
