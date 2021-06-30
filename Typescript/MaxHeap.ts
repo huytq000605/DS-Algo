@@ -83,7 +83,7 @@ class MaxHeap {
         if (node1 > node2) {
             return 1;
         }
-        if (node1 == node1) {
+        if (node1 == node2) {
             return 0 
         }
         return -1;
