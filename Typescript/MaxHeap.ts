@@ -7,39 +7,39 @@ type HeapNode = number
 
 class MaxHeap {
     private heap: HeapNode[];
-    private _length: number;
     constructor() {
         this.heap = [];
-        this._length = 0;
     }
 
     get length() {
-        return this._length;
+        return this.heap.length;
     }
 
     public peek() {
-        if (this._length > 0) return this.heap[0];
+        if (this.length > 0) return this.heap[0];
         else return undefined;
     }
 
     public push(val: HeapNode) {
         this.heap.push(val);
-        this._length++;
         this.bubbleUp();
     }
 
     public pop() {
-        [this.heap[0], this.heap[this._length - 1]] = [
-            this.heap[this._length - 1],
+        if(this.length === 0) {
+            return undefined
+        }
+        [this.heap[0], this.heap[this.length - 1]] = [
+            this.heap[this.length - 1],
             this.heap[0],
         ];
         const pop = this.heap.pop();
-        this._length--;
         this.bubbleDown();
         return pop;
     }
+
     private bubbleUp() {
-        let current = this._length - 1;
+        let current = this.length - 1;
         while (current > 0) {
             let parent = Math.ceil(current / 2) - 1;
             if (this.compare(this.heap[current], this.heap[parent]) == 1) {
@@ -58,21 +58,21 @@ class MaxHeap {
         let current = 0;
         while (true) {
             let left = current * 2 + 1;
-            if (left >= this._length) return;
+            if (left >= this.length) return;
             let right = left + 1;
-            if (right >= this._length) right = left;
-            let compare;
+            if (right >= this.length) right = left;
+            let bigger: number;
             if (this.compare(this.heap[left], this.heap[right]) == 1) {
-                compare = left;
+                bigger = left;
             } else {
-                compare = right;
+                bigger = right;
             }
-            if (this.compare(this.heap[compare], this.heap[current]) == 1) {
-                [this.heap[compare], this.heap[current]] = [
+            if (this.compare(this.heap[bigger], this.heap[current]) == 1) {
+                [this.heap[bigger], this.heap[current]] = [
                     this.heap[current],
-                    this.heap[compare],
+                    this.heap[bigger],
                 ];
-                current = compare;
+                current = bigger;
             } else {
                 return;
             }
