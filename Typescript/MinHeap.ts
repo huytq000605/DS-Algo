@@ -6,8 +6,8 @@ class MinHeap {
         this.heap = [];
     }
 
-	get length() {
-		return this.length
+	get length(): number{
+		return this.heap.length
 	}
 	
     public peek() {

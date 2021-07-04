@@ -11,7 +11,7 @@ class MaxHeap {
         this.heap = [];
     }
 
-    get length() {
+    get length(): number {
         return this.heap.length;
     }
 
