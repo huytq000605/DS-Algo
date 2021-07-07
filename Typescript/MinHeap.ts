@@ -1,28 +1,28 @@
-type HeapNode = number
-
-class MinHeap {
-    private heap: HeapNode[];
-    constructor() {
+class MinHeap<T> {
+    private heap: T[];
+    private compare: (a: T, b: T) => 1 | 0 | -1
+    constructor(compareFunction: (a:T, b:T) => 1 | 0 | -1) {
         this.heap = [];
+        this.compare = compareFunction
     }
 
 	get length(): number{
 		return this.heap.length
 	}
 	
-    public peek() {
+    public peek(): T | undefined {
 		if(this.length > 0)
 			return this.heap[0];
 		else 
 			return undefined
     }
 
-    public push(val: HeapNode) {
+    public push(val: T) {
         this.heap.push(val);
         this.bubbleUp();
     }
     
-    public pop() {
+    public pop(): T | undefined {
         if(this.length === 0) {
             return undefined
         } 
@@ -32,7 +32,7 @@ class MinHeap {
         return pop;
     }
 
-    private bubbleUp() {
+    private bubbleUp(): void {
         let current = this.length - 1;
         while (current > 0) {
             let parent = Math.ceil(current / 2) - 1;
@@ -45,7 +45,7 @@ class MinHeap {
         }
     }
 
-    private bubbleDown() {
+    private bubbleDown(): void {
         let current = 0;
         while (true) {
             let left = current * 2 + 1;
@@ -68,15 +68,5 @@ class MinHeap {
                 return;
             }
         }
-    }
-
-    private compare(node1: HeapNode, node2: HeapNode): number {
-        if (node1 > node2) {
-            return 1;
-        }
-        if (node1 == node2) {
-            return 0 
-        }
-        return -1;
     }
 }

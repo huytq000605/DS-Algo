@@ -1,33 +1,32 @@
-// class HeapNode {
-//     word: string;
-//     freq: number;
-// }
-
-type HeapNode = number
-
-class MaxHeap {
-    private heap: HeapNode[];
-    constructor() {
+class MaxHeap<T> {
+    private heap: T[];
+    private compare: (node1: T, node2: T) => 1 | -1 | 0;
+    /**
+     *
+     * @param compareFunction return 1 if node 1 > node 2, return -1 if node 1 < node 2, return 0 if node1 = node2
+     */
+    constructor(compareFn: (node1: T, node2: T) => 1 | -1 | 0) {
         this.heap = [];
+        this.compare = compareFn;
     }
 
     get length(): number {
         return this.heap.length;
     }
 
-    public peek() {
+    public peek(): T | undefined {
         if (this.length > 0) return this.heap[0];
         else return undefined;
     }
 
-    public push(val: HeapNode) {
-        this.heap.push(val);
+    public push(node: T): void {
+        this.heap.push(node);
         this.bubbleUp();
     }
 
-    public pop() {
-        if(this.length === 0) {
-            return undefined
+    public pop(): T | undefined {
+        if (this.length === 0) {
+            return undefined;
         }
         [this.heap[0], this.heap[this.length - 1]] = [
             this.heap[this.length - 1],
@@ -38,7 +37,7 @@ class MaxHeap {
         return pop;
     }
 
-    private bubbleUp() {
+    private bubbleUp(): void {
         let current = this.length - 1;
         while (current > 0) {
             let parent = Math.ceil(current / 2) - 1;
@@ -53,8 +52,8 @@ class MaxHeap {
             }
         }
     }
-	
-    private bubbleDown() {
+
+    private bubbleDown(): void {
         let current = 0;
         while (true) {
             let left = current * 2 + 1;
@@ -78,14 +77,6 @@ class MaxHeap {
             }
         }
     }
-
-    private compare(node1: HeapNode, node2: HeapNode): number {
-        if (node1 > node2) {
-            return 1;
-        }
-        if (node1 == node2) {
-            return 0 
-        }
-        return -1;
-    }
 }
+
+export { MaxHeap as default };
