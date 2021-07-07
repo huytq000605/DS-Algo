@@ -6,7 +6,7 @@ class Trie {
     constructor(letter?: string) {
         this.children = new Map()
         this.isWord = false
-		this.letter = letter
+		if(letter) this.letter = letter
     }
 	
 	public insert(word: string) {
@@ -40,7 +40,8 @@ class Trie {
 		if(!this.has(word)) {
 			return false
 		}
-		this._delete(word, -1, null, this)
+		this._delete(word, -1, null, this as Trie)
+		return true
 	}
 	
 	private _delete(word: string, index: number, parent: Trie | null, current: Trie){
