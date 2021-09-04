@@ -12,7 +12,7 @@ function mergeSort(data: number[]): number[] {
 }
 
 function merge(first: number[], second: number[]): number[] {
-    let result = [] 
+    let result = Array(first.length + second.length) 
 	let index = 0
 	let firstIndex = 0
 	let secondIndex = 0
