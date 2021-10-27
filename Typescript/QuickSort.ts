@@ -11,9 +11,10 @@ function quickSort(nums: number[]): void {
 				[nums[i], nums[j]] = [nums[j], nums[i]]
 			}
 		}
-		[nums[j + 1], nums[end]] = [nums[end], nums[j + 1]]
-		partition(start, j)
-		partition(j + 2, end)
+		j++
+		[nums[j], nums[end]] = [nums[end], nums[j]]
+		partition(start, j - 1)
+		partition(j + 1, end)
 	}
     return partition(0, nums.length - 1)
 };
